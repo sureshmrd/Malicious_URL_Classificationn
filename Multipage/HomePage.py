@@ -4,10 +4,36 @@ Created on Mon Feb 26 12:14:07 2024
 
 @author: Suresh
 """
+import base64
 import streamlit as st
 st.set_page_config(
     page_title="Multipage App"
     )
+
+@ st.cache_data
+def get_img_as_base64(file):
+    with open(file,"rb") as f:
+        data=f.read()
+    return base64.b64encode(data).decode()
+        
+img=get_img_as_base64("unsplash_bg_img.jpg")
+        
+page_bg_img=f"""
+<style>
+
+[data-testid="stAppViewContainer"] {{
+    background-image:url("data:unsplash_bg_img/png;base64,{img}");
+    background-size:cover;
+    }}
+
+
+
+</style>
+"""
+
+
+st.markdown(page_bg_img,unsafe_allow_html=True)
+
 
 
 import numpy as np
@@ -312,10 +338,8 @@ def main():
     u=tld_length(get_tld(my_input,fail_silently=True))
     
     result=""
-    input_data1=pd.DataFrame({"Abnormal URL":[b],"Count dot":[c],"Count WWW":[d],"Count atrate(@)":[e],"No of dir":[f]})
-    input_data2=pd.DataFrame({"No of embed":[g],"Shortening Service":[h],"Count https":[i],"Count http":[j],"Count Per(%)":[k]})
-    input_data3=pd.DataFrame({"Count ques(?)":[l],"Count hyphen(-)":[m],"Count equal(=)":[n],"URL Length":[o],"Hostname Length":[p]})
-    input_data4=pd.DataFrame({"Suspious Words":[q],"Digit Count":[r],"Letter Count":[s],"Fd Length":[t],"Tld Length":[u]})
+    
+    all_data={"Abnormal URL":[b],"Count dot":[c],"Count WWW":[d],"Count atrate(@)":[e],"No of dir":[f],"No of embed":[g],"Shortening Service":[h],"Count https":[i],"Count http":[j],"Count Per(%)":[k],"Count ques(?)":[l],"Count hyphen(-)":[m],"Count equal(=)":[n],"URL Length":[o],"Hostname Length":[p],"Suspious Words":[q],"Digit Count":[r],"Letter Count":[s],"Fd Length":[t],"Tld Length":[u]}
     
     if st.button('classify'):
         st.session_state["my_input"]=my_input
@@ -324,34 +348,20 @@ def main():
     if result=="SAFE":
         st.success("**WEBSITE STATUS**: BENIGN")
         st.success("This URL is determined to be safe.\nIt does not appear to contain any known threats or malicious content.\n You can proceed with confidence\n")
-        st.title(" ")
-        st.header('CLASSIFICATION REPORT', divider='rainbow')
-        st.table(input_data1)
-        st.table(input_data2)
-        st.table(input_data3)
-        st.table(input_data4)
+        
+
         
         
         
     elif result=="MALWARE":
         st.error("**WEBSITE STATUS**: MALWARE")
         st.error("**Caution**: Our system has detected potential malware associated with this URL.\nVisiting this site may pose a risk to your device and data")
-        st.title(" ")
-        st.header('CLASSIFICATION REPORT', divider='rainbow')
-        st.table(input_data1)
-        st.table(input_data2)
-        st.table(input_data3)
-        st.table(input_data4)
+        
         
     elif result=="PHISHING":
         st.error("**WEBSITE STATUS**: PHISHING")
         st.error("**Warning**: This URL is flagged for potential phishing activity.\nVisiting this site may attempt to deceive you into revealing sensitive information")
-        st.title(" ")
-        st.header('CLASSIFICATION REPORT', divider='rainbow')
-        st.table(input_data1)
-        st.table(input_data2)
-        st.table(input_data3)
-        st.table(input_data4)
+        
     
     
 if __name__ == '__main__':
