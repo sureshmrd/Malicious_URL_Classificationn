@@ -9,3 +9,4 @@ lightgbm
 scikit-learn
 wordcloud
 pandas
+base64
