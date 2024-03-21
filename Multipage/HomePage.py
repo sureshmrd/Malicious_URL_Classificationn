@@ -6,9 +6,12 @@ Created on Mon Feb 26 12:14:07 2024
 """
 import base64
 import streamlit as st
+
+
 st.set_page_config(
     page_title="Multipage App"
     )
+
 
 @ st.cache_data
 def get_img_as_base64(file):
@@ -297,16 +300,17 @@ def tld_length(tld):
 def main():
     
     
-    st.markdown("<h1 style='text-align: left; color: red ; margin-top:0px;'>MALICIOUS URL DETECTION AND CLASSIFICATION</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: left; color: white ; margin-top:0px;'>MALICIOUS URL DETECTION  AND &emsp; &emsp; &emsp; &emsp; CLASSIFICATION</h1>", unsafe_allow_html=True)
     #st.title("MALICIOUS URL DETECTION AND CLASSIFICATION")
     st.write("**Note** : Welcome to our Malicious URL Detection and Classification Web Application!\nour application is designed to analyze and categorize URLs, identifying potential threats and classifying them into various risk levels.")
+    #st.markdown("<h6 style='text-align: left; color: violet ; margin-top:0px;'> Welcome to our Malicious URL Detection and Classification Web Application!\nour application is designed to analyze and categorize URLs, identifying potential threats and classifying them into various risk levels.</h6>", unsafe_allow_html=True)
     st.title(" ")
     
     if "my_input" not in st.session_state:
       st.session_state.my_input=""
         
         
-    my_input=st.text_input("Enter the URL",st.session_state.my_input)
+    my_input=st.text_input("**Enter the URL**",st.session_state.my_input)
     
     
     
@@ -337,32 +341,58 @@ def main():
     t=fd_length(my_input)
     u=tld_length(get_tld(my_input,fail_silently=True))
     
+    
+    # Define CSS for text styling
+    st.markdown(
+    """
+    <style>
+    .success-message {
+        color: white;
+        background-color: rgba(0, 255, 0, 0.7); /* Semi-transparent green background */
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Add shadow for better contrast */
+    }
+    .error-message {
+        color: white;
+        background-color: rgba(255, 0, 0, 0.7); /* Semi-transparent red background */
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Add shadow for better contrast */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
+    
     result=""
     
     all_data={"Abnormal URL":[b],"Count dot":[c],"Count WWW":[d],"Count atrate(@)":[e],"No of dir":[f],"No of embed":[g],"Shortening Service":[h],"Count https":[i],"Count http":[j],"Count Per(%)":[k],"Count ques(?)":[l],"Count hyphen(-)":[m],"Count equal(=)":[n],"URL Length":[o],"Hostname Length":[p],"Suspious Words":[q],"Digit Count":[r],"Letter Count":[s],"Fd Length":[t],"Tld Length":[u]}
     
-    if st.button('classify'):
+    if st.button('**classify**'):
         st.session_state["my_input"]=my_input
         result = pred(my_input)
         
     if result=="SAFE":
         st.success("**WEBSITE STATUS**: BENIGN")
-        st.success("This URL is determined to be safe.\nIt does not appear to contain any known threats or malicious content.\n You can proceed with confidence\n")
-        
+        st.markdown('<p class="success-message">This URL is determined to be safe.\nIt does not appear to contain any known threats or malicious content.\n You can proceed with confidence</p>', unsafe_allow_html=True)
 
         
         
         
     elif result=="MALWARE":
         st.error("**WEBSITE STATUS**: MALWARE")
-        st.error("**Caution**: Our system has detected potential malware associated with this URL.\nVisiting this site may pose a risk to your device and data")
-        
+        st.markdown('<p class="error-message">Caution !! Our system has detected potential malware associated with this URL.\nVisiting this site may pose a risk to your device and data</p>', unsafe_allow_html=True)
+
         
     elif result=="PHISHING":
         st.error("**WEBSITE STATUS**: PHISHING")
-        st.error("**Warning**: This URL is flagged for potential phishing activity.\nVisiting this site may attempt to deceive you into revealing sensitive information")
-        
+        st.markdown('<p class="error-message">Warning !! This URL is flagged for potential phishing activity.\nVisiting this site may attempt to deceive you into revealing sensitive information</p>', unsafe_allow_html=True)
+
     
+
+
+
     
 if __name__ == '__main__':
     main()

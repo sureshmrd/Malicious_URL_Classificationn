@@ -290,7 +290,7 @@ t=fd_length(inp)
 u=tld_length(get_tld(inp,fail_silently=True))
 
 
-all_data1={"Abnormal URL":b,"Count dot":c,"Count WWW":d,"Count atrate(@)":e,"No of dir":f,"No of embed":g,"Shortening Service":h,"Count https":i,"Count http":j,"Count Per(%)":k}
+all_data1={"Abnormal URL":b,"Count dot - counts no .of dots":c,"Count WWW":d,"Count atrate(@)":e,"No of dir":f,"No of embed":g,"Shortening Service":h,"Count https":i,"Count http":j,"Count Per(%)":k}
 all_data2={"Count ques(?)":l,"Count hyphen(-)":m,"Count equal(=)":n,"URL Length":o,"Hostname Length":p,"Suspious Words":q,"Digit Count":r,"Letter Count":s,"Fd Length":t,"Tld Length":u}
 result2 = pred(inp)
 
